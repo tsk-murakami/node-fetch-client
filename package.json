@@ -1,0 +1,49 @@
+{
+  "name": "rest-api-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsk-murakami/rest-api-client.git"
+  },
+  "author": "tsk.murakami5@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsk-murakami/rest-api-client/issues"
+  },
+  "homepage": "https://github.com/tsk-murakami/rest-api-client#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "@types/json-server": "^0.14.3",
+    "@types/node-fetch": "^2.5.8",
+    "jest": "^26.6.3",
+    "json-server": "^0.16.3",
+    "ts-jest": "^26.5.1",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ]
+  }
+}
