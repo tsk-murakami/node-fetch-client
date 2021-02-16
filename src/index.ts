@@ -1,4 +1,4 @@
 
-export * from "./api-client";
+export { ApiClient as default } from "./api-client";
 export * from "./data-models";
 

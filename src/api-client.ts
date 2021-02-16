@@ -132,4 +132,3 @@ export class ApiClient implements IApiClient {
     };
 };
 
-export default ApiClient;

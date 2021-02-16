@@ -3,7 +3,7 @@
 ## Simple Usage
 
 ```js
-import ApiClient from "ts-node-api-client";
+import ApiClient from "ts-node-fetch-client";
 
 interface IResponse {
     foo: string;
@@ -100,7 +100,7 @@ switch( CONTENT_TYPE ){
 
 ## Example
 ```js
-import ApiClient from "ts-node-api-client";
+import ApiClient from "ts-node-fetch-client";
 
 interface ISimpleBook {
     bookId: string;

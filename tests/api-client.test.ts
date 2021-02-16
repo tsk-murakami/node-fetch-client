@@ -1,7 +1,7 @@
 
 import { Server } from "http";
 
-import ApiClient from "../src/api-client";
+import ApiClient from "../src";
 
 import dummyApp from "./libs/server";
 import { PostEntiry, CommentsEntiry } from "./libs/db";
