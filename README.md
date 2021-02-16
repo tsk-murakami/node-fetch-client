@@ -40,7 +40,7 @@ All APIs have the same parameter format.
 | resType | *1 ResponseType | | Default: `resType` when creating ApiClient <br />Obtain a resource according to the specified RequestType. |
 | req | any | | Request data for Fetch |
 | header | *2 SimpleHeader | | Merge with the original header. |
-| pathParams | ```Record<string,string|number>``` | | If this parameter is specified and the `path` is something like `/:resource/:id`, request with a Rest-like URI. |
+| pathParams | `Record<string,string|number>` | | If this parameter is specified and the `path` is something like `/:resource/:id`, request with a Rest-like URI. |
 
 ## Parameters for ApiClient
 | Name | Type | Required | Description |
@@ -48,7 +48,7 @@ All APIs have the same parameter format.
 | baseUri |  string  | Yes | The base URL for API entry point. |
 |  resType  | *1 ResponseType |  | Default: "json". <br />Can choose from json, text, blob... in Fetch Response. |
 | header | *2 SimpleHeader | | Default: *3 DefaultHeader |
-| logging | *4 SimpleLogger | Default Console
+| logging | *4 SimpleLogger | | Default Console |
 
 - *1 ResponseType: 
     ```js
@@ -123,7 +123,7 @@ const apiClient = new ApiClient({
 async function run(){
     await apiClient.post<void,Omit<IBook,"bookId">>({
         path: "/books",
-        req: {
+        req: { // Typed Omit<IBook,"bookId">
             title: "title",
             author: "author";
         }
@@ -143,18 +143,19 @@ async function run(){
             pathParams: {
                 bookId: l.bookId
             },
+            resType: 'blob'
         })
         await apiClient.put<IBook,Partial<IBook>>({
             path: "/books/:bookId",
             pathParams: {
                 bookId: l.bookId
             },
-            req: {
+            req: { // Typed Partial<IBook>
                 title: "Next title",
                 author: "Next author",
             }
         })
-        delete apiClient.put<IBook,Partial<IBook>>({
+        await apiClient.delete<IBook,Partial<IBook>>({
             path: "/books/:bookId",
             pathParams: {
                 bookId: l.bookId
