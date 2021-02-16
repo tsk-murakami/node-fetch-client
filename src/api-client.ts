@@ -5,7 +5,7 @@ import { stringify } from "querystring";
 import { IConfig, IApiClient, ISimpleLogger, IParameters, SimpleHeader, ResponseType, Method } from "./data-models";
 import { DEFAULT_HEADER, DEFAULT_RESPONSE_TYPE } from "./constant";
 
-import { isObject } from "./utils";
+import { isObject, generateRestLikeUrl } from "./utils";
 
 export class ApiClient implements IApiClient {
     private _config: IConfig;
@@ -40,8 +40,8 @@ export class ApiClient implements IApiClient {
     }
 
     async get<ResT, RequestT = any>(params: IParameters<RequestT>): Promise<ResT> {
-        const { path, req, resType, header } = params;
-        let url = this._makeUrl(path);
+        const { path, req, resType, header, pathParams } = params;
+        let url = this._makeUrl(path, pathParams);
         if (req){
             const query = stringify(req as any);
             if( query ){
@@ -64,8 +64,9 @@ export class ApiClient implements IApiClient {
         return response;
     };
 
-    private _makeUrl ( apiUrl: string ) {
-        return this._config.baseUri + apiUrl;
+    private _makeUrl ( apiUrl: string, pathParams?: Record<string,string|number> ) {
+        const sureUrl = generateRestLikeUrl(apiUrl, pathParams || {})
+        return this._config.baseUri + sureUrl;
     };
 
     private _makeHeader( header?: SimpleHeader ){
@@ -95,14 +96,14 @@ export class ApiClient implements IApiClient {
     };
 
     private _action<ReqT>(params: IParameters<ReqT>, method: Method){
-        const { path, req, header } = params;
+        const { path, req, header, pathParams } = params;
         const sureHeader = this._makeHeader(header);
         const body = this._makeBody(sureHeader,req)
         
-        const res = fetch( this._makeUrl(path), {
+        const res = fetch( this._makeUrl(path, pathParams), {
             method: method,
             headers: sureHeader,
-            body: body
+            body: body,
         }).then(this._handleErrors);
         return res;
     };

@@ -1,22 +1,27 @@
 {
-  "name": "rest-api-client",
-  "version": "1.0.0",
+  "name": "ts-node-fetch-client",
+  "version": "0.0.1",
   "description": "",
   "main": "./dist/index.js",
+  "files": [
+    "src",
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc",
-    "test": "jest"
+    "compile": "tsc",
+    "test": "jest",
+    "push": "npm run test && npm run compile && npm publish"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tsk-murakami/rest-api-client.git"
+    "url": "git+https://github.com/tsk-murakami/node-fetch-client.git"
   },
-  "author": "tsk.murakami5@gmail.com",
+  "author": "tasukumurakami",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tsk-murakami/rest-api-client/issues"
+    "url": "https://github.com/tsk-murakami/node-fetch-client/issues"
   },
-  "homepage": "https://github.com/tsk-murakami/rest-api-client#readme",
+  "homepage": "https://github.com/tsk-murakami/node-fetch-client#readme",
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/json-server": "^0.14.3",

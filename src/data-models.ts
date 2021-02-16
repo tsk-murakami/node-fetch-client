@@ -12,13 +12,12 @@ export interface SimpleHeader extends Record<string,string> {
 
 export interface IRequiredConfig {
     baseUri: string;
-    resType: ResponseType;
 };
 
 export interface IOptionsConfig {
+    resType: ResponseType;
     header: SimpleHeader;
     logging: ISimpleLogger;
-    errorCallback(e: Error): Promise<void>;
 };
 export type IConfig = IRequiredConfig & Partial<IOptionsConfig>;
 
@@ -28,11 +27,12 @@ export interface IRequiredParameters {
     path: string;
 };
 export interface IOptionsParameters<ReqT = any> {
+    pathParams: Record<string,string|number>
     req: ReqT;
     header: SimpleHeader;
     resType: ResponseType;
 };
-export type IParameters<ReqT> = IRequiredParameters & Partial<IOptionsParameters<ReqT>>
+export type IParameters<ReqT> = IRequiredParameters & Partial<IOptionsParameters<ReqT>>;
 
 export interface IApiClient {
     get<ResT,ReqT=any>(params: IParameters<ReqT>): Promise<ResT>;

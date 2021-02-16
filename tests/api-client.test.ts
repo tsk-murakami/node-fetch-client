@@ -6,6 +6,8 @@ import ApiClient from "../src/api-client";
 import dummyApp from "./libs/server";
 import { PostEntiry, CommentsEntiry } from "./libs/db";
 
+import { generateRestLikeUrl } from "../src/utils"
+
 const client = new ApiClient({
     baseUri: 'http://localhost:4444',
     resType: 'json',
@@ -33,7 +35,8 @@ describe( "Method get", () => {
     })
     test("Get one", async() => {
         const res = await client.get<PostEntiry>({
-            path: "/posts/1"
+            path: "/posts/:id",
+            pathParams: { id: 1 }
         })
         expect(res).toHaveProperty("id")
         expect(res).toHaveProperty("title")
@@ -116,7 +119,10 @@ describe( "Method put", () => {
             author: 'Update'
         }
         const res = await client.put<PostEntiry,PostEntiry>({
-            path: "/posts/2",
+            path: "/posts/:id",
+            pathParams: {
+                id: 2
+            },
             req: updatedItem
         })
         expect(res).toEqual(updatedItem)
@@ -139,3 +145,18 @@ describe( "Method delete", () => {
         expect(list).toHaveLength(1)
     })
 } )
+
+describe( "Utils", () => {
+    test("Simple", () => {
+        const newUrl = generateRestLikeUrl("/:resource/hoge", { resource: "1234" } )
+        expect(newUrl).toEqual("/1234/hoge")
+    })
+    test("Multi", () => {
+        const newUrl = generateRestLikeUrl("/:id1/hoge/:id2", { id1: "1234", id2: "2345" } )
+        expect(newUrl).toEqual("/1234/hoge/2345")
+    })
+    test("Not have paramter", () => {
+        const newUrl = generateRestLikeUrl("/:id1/hoge/:id2", { id1: "1234" } )
+        expect(newUrl).toEqual("/1234/hoge/:id2")
+    })
+})
