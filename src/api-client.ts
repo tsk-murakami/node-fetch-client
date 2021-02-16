@@ -5,6 +5,8 @@ import { stringify } from "querystring";
 import { IConfig, IApiClient, ISimpleLogger, IParameters, SimpleHeader, ResponseType, Method } from "./data-models";
 import { DEFAULT_HEADER, DEFAULT_RESPONSE_TYPE } from "./constant";
 
+import { isObject } from "./utils";
+
 export class ApiClient implements IApiClient {
     private _config: IConfig;
     private _header: SimpleHeader;
@@ -78,7 +80,15 @@ export class ApiClient implements IApiClient {
             case 'application/x-www-form-urlencoded':
                 return stringify(req as any);
             case 'multipart/form-data':
-                return undefined;
+                const checkObject = isObject(req);
+                if( checkObject ){
+                    const formData = new FormData();
+                    Object.entries(req).forEach( ([key,value]:[ string, any]) => {
+                        formData.append(key,value)
+                    } )
+                    return formData;
+                };
+                return req;
             default:
                 return undefined;
       };
@@ -87,10 +97,12 @@ export class ApiClient implements IApiClient {
     private _action<ReqT>(params: IParameters<ReqT>, method: Method){
         const { path, req, header } = params;
         const sureHeader = this._makeHeader(header);
+        const body = this._makeBody(sureHeader,req)
+        
         const res = fetch( this._makeUrl(path), {
             method: method,
             headers: sureHeader,
-            body: this._makeBody(sureHeader,req)
+            body: body
         }).then(this._handleErrors);
         return res;
     };

@@ -8,7 +8,11 @@ import { PostEntiry, CommentsEntiry } from "./libs/db";
 
 const client = new ApiClient({
     baseUri: 'http://localhost:4444',
-    resType: 'json'
+    resType: 'json',
+    header: {
+        "Content-Type": 'application/x-www-form-urlencoded',
+        "Accept": "*/*",
+    }
 })
 let server: Server;
 beforeAll( () => {
